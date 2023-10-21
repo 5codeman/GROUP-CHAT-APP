@@ -1,131 +1,125 @@
-// const groupMembersBtn = document.getElementById("groupMembers");
-// const createGroupBtn = document.getElementById("createGroup");
-// const addToGroupBtn = document.getElementById("addToGroup");
-// const deleteFromGroupBtn = document.getElementById("deleteFromGroup");
-// const groups = document.getElementById("groups");
+const groupMembersBtn = document.getElementById("groupMembers");
+const createGroupBtn = document.getElementById("createGroup");
+const addToGroupBtn = document.getElementById("addToGroup");
+const deleteFromGroupBtn = document.getElementById("deleteFromGroup");
 const logoutBtn = document.getElementById("logout");
+// const groups = document.getElementById("groups");
 
-// async function createGroup() {
-//     try {
-//         const groupName = prompt("Group Name");
-//         const members = [];
-//         let userInput;
-//         while (userInput !== "done") {
-//             userInput = prompt(
-//                 `Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you finished!`
-//             );
-//             if (userInput !== "done") {
-//                 members.push(userInput);
-//             }
-//         }
+createGroupBtn.addEventListener("click", createGroup);
 
-//         const token = localStorage.getItem("token");
-//         const res = await axios.post(
-//             "http://localhost:4000/group/createGroup",
-//             {
-//                 groupName: groupName,
-//                 members: members,
-//             },
-//             { headers: { Authorization: token } }
-//         );
-//         alert(`${groupName} Created Successfully!`);
-//         window.location.reload();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+async function createGroup() {
+    try {
+        const groupName = prompt("Enter the Chat-Group Name");
+        const members = [];
+        let userInput;
+        while (userInput !== "done") {
+            userInput = prompt(`Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you are finished with entering user Email Id!`);
+            if (userInput !== "done") {
+                members.push(userInput);
+            }
+        }
+        const res = await axios.post("http://localhost:2500/group/createGroup",
+            {
+                groupName: groupName,
+                members: members,
+            }
+        );
+        alert(`${groupName} Created Successfully!`);
+        window.location.reload();
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-// async function getGroups() {
-//     try {
-//         const token = localStorage.getItem("token");
-//         const res = await axios.get("http://localhost:4000/group/getGroups", {
-//             headers: { Authorization: token },
-//         });
-//         groups.innerHTML = "";
-//         res.data.groups.forEach((group) => {
-//             const li = document.createElement("li");
-//             const div1 = document.createElement("div");
-//             const div2 = document.createElement("div");
-//             const span = document.createElement("span");
-//             const p = document.createElement("p");
+document.addEventListener("DOMContentLoaded", getGroups);
 
-//             div1.classList.add("d-flex", "bd-highlight");
-//             div2.className = "user_info";
-//             span.appendChild(document.createTextNode(group.name));
-//             p.appendChild(document.createTextNode(`${group.admin} is Admin`));
+async function getGroups() {
+    try {
+        const res = await axios.get("http://localhost:2500/group/getGroups");
+        groups.innerHTML = "";
+        res.data.groups.forEach((group) => {
+            const li = document.createElement("li");
+            const div1 = document.createElement("div");
+            const div2 = document.createElement("div");
+            const span = document.createElement("span");
+            const p = document.createElement("p");
 
-//             div2.appendChild(span);
-//             div2.appendChild(p);
+            div1.classList.add("d-flex", "bd-highlight");
+            div2.className = "user_info";
+            span.appendChild(document.createTextNode(group.name));
+            p.appendChild(document.createTextNode(`${group.admin} is Admin`));
 
-//             div1.appendChild(div2);
-//             li.appendChild(div1);
-//             groups.appendChild(li);
-//         });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+            div2.appendChild(span);
+            div2.appendChild(p);
 
-// async function addToGroup() {
-//     try {
-//         const groupName = prompt("Group Name");
-//         const members = [];
-//         let userInput;
-//         while (userInput !== "done") {
-//             userInput = prompt(
-//                 `Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you finished!`
-//             );
-//             if (userInput !== "done") {
-//                 members.push(userInput);
-//             }
-//         }
-//         const token = localStorage.getItem("token");
-//         const res = await axios.post(
-//             "http://localhost:4000/group/addToGroup",
-//             {
-//                 groupName: groupName,
-//                 members: members,
-//             },
-//             {
-//                 headers: { Authorization: token },
-//             }
-//         );
-//         alert(res.data.message);
-//         window.location.reload();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-// async function deleteFromGroup() {
-//     try {
-//         const groupName = prompt("Group Name");
-//         const members = [];
-//         let userInput;
-//         while (userInput !== "done") {
-//             userInput = prompt(
-//                 `Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you finished!`
-//             );
-//             if (userInput !== "done") {
-//                 members.push(userInput);
-//             }
-//         }
-//         const token = localStorage.getItem("token");
-//         const res = await axios.post(
-//             "http://localhost:4000/group/deleteFromGroup",
-//             {
-//                 groupName: groupName,
-//                 members: members,
-//             },
-//             {
-//                 headers: { Authorization: token },
-//             }
-//         );
-//         alert(res.data.message);
-//         window.location.reload();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+            div1.appendChild(div2);
+            li.appendChild(div1);
+            groups.appendChild(li);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+addToGroupBtn.addEventListener("click", addToGroup);
+
+async function addToGroup() {
+    try {
+        const groupName = prompt("Enter the Chat-Group Name");
+        const members = [];
+        let userInput;
+        while (userInput !== "done") {
+            userInput = prompt(
+                `Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you are finished with entering user Email Id!`
+            );
+            if (userInput !== "done") {
+                members.push(userInput);
+            }
+        }
+        const res = await axios.post(
+            "http://localhost:2500/group/addToGroup",
+            {
+                groupName: groupName,
+                members: members,
+            }
+        );
+        alert(res.data.message);
+        window.location.reload();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+deleteFromGroupBtn.addEventListener("click", deleteFromGroup);
+
+async function deleteFromGroup() {
+    try {
+        const groupName = prompt("Enter the Chat-Group Name");
+        const members = [];
+        let userInput;
+        while (userInput !== "done") {
+            userInput = prompt(
+                `Enter the email Id of Users to Add! Please Enter Valid Email Id Otherwise User will not get Added. Type "done" when you are finished with entering user Email Id!`
+            );
+            if (userInput !== "done") {
+                members.push(userInput);
+            }
+        }
+        const res = await axios.post(
+            "http://localhost:2500/group/deleteFromGroup",
+            {
+                groupName: groupName,
+                members: members,
+            }
+        );
+        alert(res.data.message);
+        window.location.reload();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// groupMembersBtn.addEventListener("click", groupMembers);
 
 // async function groupMembers() {
 //     try {
@@ -140,10 +134,8 @@ const logoutBtn = document.getElementById("logout");
 //         if (!groupName || groupName == "") {
 //             return alert("Select the Group whose Members you wanna see!");
 //         }
-//         const token = localStorage.getItem("token");
 //         const res = await axios.get(
-//             `http://localhost:4000/group/groupMembers/${groupName}`,
-//             { headers: { Authorization: token } }
+//             `http://localhost:2500/group/groupMembers/${groupName}`
 //         );
 //         res.data.users.forEach((user) => {
 //             const div = document.createElement("div");
@@ -176,9 +168,7 @@ async function logout() {
     }
 }
 
-// groupMembersBtn.addEventListener("click", groupMembers);
-// createGroupBtn.addEventListener("click", createGroup);
-// addToGroupBtn.addEventListener("click", addToGroup);
-// deleteFromGroupBtn.addEventListener("click", deleteFromGroup);
 
-// document.addEventListener("DOMContentLoaded", getGroups);
+
+
+

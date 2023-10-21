@@ -1,9 +1,18 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const http = require('http');
 const express = require('express');
+const { Server } = require("socket.io");
 const PORT = 2500;
 const app = express();
+const server = http.createServer(app); //http server which contain express server
+const io = new Server(server); //socket io server which conatin http server
+
+//socket.io
+io.on("connection", (socket) => {
+    console.log("new user connected", socket.id);
+})
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,44 +39,41 @@ const sequelize = require("./util/database");
 
 //Router
 const userRouter = require("./router/userRouter");
-// const homePageRouter = require("./router/homePageRouter");
-// const chatRouter = require("./router/chatRouter");
-// const groupRouter = require("./router/groupRouter");
+const chatRouter = require("./router/chatRouter");
+const groupRouter = require("./router/groupRouter");
 
 //Middleware
 app.use("/", userRouter);
+app.use("/chat", chatRouter);
+app.use("/group", groupRouter);
+
 // app.use("/user", userRouter);
-
-// app.use("/chat", chatRouter);
-
-// app.use("/group", groupRouter);
 
 // const job = require("./jobs/cron");
 // job.start();
 
 //Models
 const User = require("./models/userModel");
-// const Chat = require("./models/chatModel");
-// const Group = require("./models/groupModel");
-// const UserGroup = require("./models/userGroup");
+const Chat = require("./models/chatModel");
+const Group = require("./models/groupModel");
+const UserGroup = require("./models/userGroup");
 
-// //Relationships between Tables
-// User.hasMany(Chat, { onDelete: "CASCADE", hooks: true });
+//Relationships between Tables
+User.hasMany(Chat); // User.hasMany(Chat, { onDelete: "CASCADE", hooks: true });
+Chat.belongsTo(User);
 
-// Chat.belongsTo(User);
-// Chat.belongsTo(Group);
+Group.hasMany(Chat);
+Chat.belongsTo(Group);
 
-// User.hasMany(UserGroup);
-
-// Group.hasMany(Chat);
-// Group.hasMany(UserGroup);
-
-// UserGroup.belongsTo(User);
-// UserGroup.belongsTo(Group);
+//many to many between user and group, thats why we have to make a juncton model or table called userGroup
+User.hasMany(UserGroup);
+Group.hasMany(UserGroup);
+UserGroup.belongsTo(User);
+UserGroup.belongsTo(Group);
 
 sequelize.sync() //{ force: true }
     .then((result) => {
-        app.listen(PORT, function (err) {
+        server.listen(PORT, function (err) {
             if (err) {
                 console.log(`Error in running the server: ${err}`);
             }

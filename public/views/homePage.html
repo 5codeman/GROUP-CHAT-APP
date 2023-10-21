@@ -65,9 +65,9 @@
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                         <div class="action_menu">
                             <ul>
-                                <li id="groupMembers">
+                                <!-- <li id="groupMembers">
                                     <i class="fas fa-users"></i>Group Members
-                                </li>
+                                </li> -->
                                 <li id="createGroup">
                                     <i class="fas fa-comments"></i> Create Group
                                 </li>
@@ -97,16 +97,18 @@
                                 Hi Khalid i am good tnx how about you?
                                 <span class="msg_time_send">8:55 AM, Today</span>
                             </div>
-                        </div> -->
+                        </div>
+ -->
+
                         <!-- <div class="d-flex justify-content-center text-white">
-                <p>Nidhi Jagga is Member</p>
-              </div>
-              <div class="d-flex justify-content-center text-white">
-                <p>Anup Gupta is Member</p>
-              </div>
-              <div class="d-flex justify-content-center text-white">
-                <p>Sanaya is Member</p>
-              </div> -->
+                            <p>Nidhi Jagga is Member</p>
+                        </div>
+                        <div class="d-flex justify-content-center text-white">
+                            <p>Anup Gupta is Member</p>
+                        </div>
+                        <div class="d-flex justify-content-center text-white">
+                            <p>Sanaya is Member</p>
+                        </div> -->
                     </div>
                     <div class="card-footer">
                         <div class="input-group">
@@ -125,6 +127,13 @@
         </div>
     </div>
 </body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+</script>
+
+<!-- This code is for side menu button -->
 <script>
     $(document).ready(function () {
         $("#action_menu_btn").click(function () {
@@ -136,7 +145,7 @@
 <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.3/axios.min.js"></script>
-<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+<!-- <script src="http://localhost:5000/socket.io/socket.io.js"></script> -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/group.js"></script>
