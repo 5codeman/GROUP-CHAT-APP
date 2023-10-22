@@ -18,12 +18,13 @@ async function createGroup() {
                 members.push(userInput);
             }
         }
-        const res = await axios.post("http://localhost:2500/group/createGroup",
+        await axios.post("http://localhost:2500/group/createGroup",
             {
                 groupName: groupName,
                 members: members,
             }
         );
+        console.log("check");
         alert(`${groupName} Created Successfully!`);
         window.location.reload();
     } catch (error) {

@@ -12,12 +12,13 @@ module.exports.createGroup = async (req, res) => {
 
         const group = await Group.create({ name: groupName, admin: admin });
 
-        // invitedMembers contain all the user row which email id matches from member array
-        const invitedMembers = await User.findAll({
-            where: { email: { [Op.or]: members } } //here members is array so in Op.or it find the matching email in members arry from user table
-        });
-
-
+        let invitedMembers = [];
+        if (members.length !== 0) {
+            // invitedMembers contain all the user row which email id matches from member array
+            invitedMembers = await User.findAll({
+                where: { email: { [Op.or]: members } } //here members is array so in Op.or it find the matching email in members arry from user table
+            });
+        }
         (async () => {
             await Promise.all(
                 invitedMembers.map(async (user) => {
@@ -36,7 +37,7 @@ module.exports.createGroup = async (req, res) => {
             });
         })(); //call
 
-        res.status(201);//.json({ group: group.dataValues.name }); //, members: members
+        res.status(201).json({ group: group.dataValues.name }); //, members: members
     } catch (error) {
         console.log(error);
     }
@@ -72,10 +73,13 @@ module.exports.addToGroup = async (req, res) => {
                 },
             });
             if (admin.userId == req.user.id) {
-                const invitedMembers = await User.findAll({
-                    where: { email: { [Op.or]: members } }
-                });
+                let invitedMembers = [];
+                if (members.length !== 0) {
+                    invitedMembers = await User.findAll({
+                        where: { email: { [Op.or]: members } }
+                    });
 
+                }
                 await Promise.all(
                     invitedMembers.map(async (user) => {
                         const response = await UserGroup.create({
@@ -110,13 +114,17 @@ module.exports.deleteFromGroup = async (req, res) => {
                 },
             });
             if (admin.userId == req.user.id) {
-                const invitedMembers = await User.findAll({
-                    where: {
-                        email: {
-                            [Op.or]: members,
+                let invitedMembers = [];
+                if (members.length !== 0) {
+                    invitedMembers = await User.findAll({
+                        where: {
+                            email: {
+                                [Op.or]: members,
+                            },
                         },
-                    },
-                });
+                    });
+                }
+
 
                 await Promise.all(
                     invitedMembers.map(async (user) => {
