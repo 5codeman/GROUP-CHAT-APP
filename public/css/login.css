@@ -13,6 +13,10 @@
   color: rgb(2, 2, 30);
 }
 
+#loginBtn{
+  margin-top: 10px;
+}
+
 body {
   /* background: #138a23; */
   /* background-image: radial-gradient(#0b1258, #99cbe8); */
