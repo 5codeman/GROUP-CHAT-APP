@@ -41,7 +41,7 @@ const postUserSignUp = async (req, res) => {
 };
 
 function generateAccessToken(id, email) {
-    return jwt.sign({ userId: id, email: email }, process.env.SECRET_KEY);
+    return jwt.sign({ userId: id, email: email }, process.env.SECRET_KEY || "OPEN-THE-LOCK");
 }
 
 const postUserLogin = async (req, res, next) => {

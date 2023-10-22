@@ -10,7 +10,7 @@ const authenticate = (req, res, next) => {
         }
 
         // in this user a object is return with email and the userId
-        const user = jwt.verify(token, process.env.SECRET_KEY); //It give the binded data after matching with secret_key
+        const user = jwt.verify(token, process.env.SECRET_KEY || "OPEN-THE-LOCK"); //It give the binded data after matching with secret_key
 
         //suppose someone edit or alter my token in browser cokkies or cookies is not match with my secret key or vrify unsuccessful.
         if (!user) {

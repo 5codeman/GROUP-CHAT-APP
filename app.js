@@ -4,7 +4,7 @@ dotenv.config();
 const http = require('http');
 const express = require('express');
 const { Server } = require("socket.io");
-const PORT = 2500;
+const PORT = process.env.PORT || 2500;
 const app = express();
 const server = http.createServer(app); //http server which contain express server
 const io = new Server(server); //socket io server which conatin http server
