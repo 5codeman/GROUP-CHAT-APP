@@ -1,33 +1,22 @@
-const path = require("path");
-const User = require("../models/userModel");
 const Chat = require("../models/chatModel");
-// const Group = require("../models/groupModel");
-const sequelize = require("../util/database");
+const Group = require("../models/groupModel");
 const { Op } = require("sequelize");
+// const path = require("path");
+// const User = require("../models/userModel");
+// const sequelize = require("../util/database");
 
-const io = require("socket.io")(5000, {
-    cors: {
-        origin: "http://localhost:4000",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true,
-    },
-});
+// const io = require("socket.io")(5000, {
+//     cors: {
+//         origin: "http://localhost:4000",
+//         methods: ["GET", "POST"],
+//         allowedHeaders: ["my-custom-header"],
+//         credentials: true,
+//     },
+// });
 
-io.on("connection", (socket) => {
-    socket.on("getMessages", async (groupName) => {
-        try {
-            const group = await Group.findOne({ where: { name: groupName } });
-            const messages = await Chat.findAll({
-                where: { groupId: group.dataValues.id },
-            });
-            console.log("Request Made");
-            io.emit("messages", messages);
-        } catch (error) {
-            console.log(error);
-        }
-    });
-});
+//const io = require("socket.io")
+
+
 
 module.exports.sendMessage = async (req, res) => {
     try {
@@ -49,25 +38,25 @@ module.exports.sendMessage = async (req, res) => {
 };
 
 // exports.getMessages = async (req, res, next) => {
-//   try {
-//     const param = req.query.param;
-//     const group = await Group.findOne({
-//       where: { name: req.query.groupName },
-//     });
-//     const messages = await Chat.findAll({
-//       where: {
-//         [Op.and]: {
-//           id: {
-//             [Op.gt]: param,
-//           },
-//           groupId: group.dataValues.id,
-//         },
-//       },
-//     });
-//     return res.status(200).json({ messages: messages });
-//   } catch (error) {
-//     console.log(error);
-//   }
+//     try {
+//         const param = req.query.param;
+//         const group = await Group.findOne({
+//             where: { name: req.query.groupName },
+//         });
+//         const messages = await Chat.findAll({
+//             where: {
+//                 [Op.and]: {
+//                     id: {
+//                         [Op.gt]: param,
+//                     },
+//                     groupId: group.dataValues.id,
+//                 },
+//             },
+//         });
+//         return res.status(200).json({ messages: messages });
+//     } catch (error) {
+//         console.log(error);
+//     }
 // };
 
 

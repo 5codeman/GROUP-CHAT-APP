@@ -10,9 +10,10 @@ const server = http.createServer(app); //http server which contain express serve
 const io = new Server(server); //socket io server which conatin http server
 
 //socket.io
-io.on("connection", (socket) => {
-    console.log("new user connected", socket.id);
-})
+// io.on("connection", (socket) => {
+//     console.log("new user connected", socket.id);
+// })
+
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -70,6 +71,22 @@ User.hasMany(UserGroup);
 Group.hasMany(UserGroup);
 UserGroup.belongsTo(User);
 UserGroup.belongsTo(Group);
+
+io.on("connection", (socket) => {
+    // console.log("new user connected", socket.id);
+    socket.on("getMessages", async (groupName) => {
+        try {
+            const group = await Group.findOne({ where: { name: groupName } });
+            const messages = await Chat.findAll({
+                where: { groupId: group.dataValues.id },
+            });
+            // console.log("Request Made");
+            io.emit("messages", { data: messages, groupName: groupName }); //you can sen multiple event eg."group", groupName and listend particular event sepratelly
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
 
 sequelize.sync() //{ force: true }
     .then((result) => {
