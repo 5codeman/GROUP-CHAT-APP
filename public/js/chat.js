@@ -92,7 +92,7 @@ async function messageSend() {
         if (!groupName || groupName == "") {
             return alert("Select group to send the message");
         }
-        const res = await axios.post(`http://localhost:2500/chat/sendMessage/`,
+        const res = await axios.post(`https://chit-chat-hvfg.onrender.com/chat/sendMessage/`,
             {
                 message: message,
                 groupName: groupName,
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // async function sendMessage() {
 //     try {
-//         const res = await axios.post('http://localhost:2500/chat/sendMessage', { message: messageTextArea.value });
+//         const res = await axios.post('https://chit-chat-hvfg.onrender.com/chat/sendMessage', { message: messageTextArea.value });
 //     }
 //     catch (error) {
 //         console.log(error);

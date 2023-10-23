@@ -18,7 +18,7 @@ async function createGroup() {
                 members.push(userInput);
             }
         }
-        await axios.post("http://localhost:2500/group/createGroup",
+        await axios.post("https://chit-chat-hvfg.onrender.com/group/createGroup",
             {
                 groupName: groupName,
                 members: members,
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", getGroups);
 
 async function getGroups() {
     try {
-        const res = await axios.get("http://localhost:2500/group/getGroups");
+        const res = await axios.get("https://chit-chat-hvfg.onrender.com/group/getGroups");
         groups.innerHTML = "";
         res.data.groups.forEach((group) => {
             const li = document.createElement("li");
@@ -78,7 +78,7 @@ async function addToGroup() {
             }
         }
         const res = await axios.post(
-            "http://localhost:2500/group/addToGroup",
+            "https://chit-chat-hvfg.onrender.com/group/addToGroup",
             {
                 groupName: groupName,
                 members: members,
@@ -107,7 +107,7 @@ async function deleteFromGroup() {
             }
         }
         const res = await axios.post(
-            "http://localhost:2500/group/deleteFromGroup",
+            "https://chit-chat-hvfg.onrender.com/group/deleteFromGroup",
             {
                 groupName: groupName,
                 members: members,
@@ -136,7 +136,7 @@ async function deleteFromGroup() {
 //             return alert("Select the Group whose Members you wanna see!");
 //         }
 //         const res = await axios.get(
-//             `http://localhost:2500/group/groupMembers/${groupName}`
+//             `https://chit-chat-hvfg.onrender.com/group/groupMembers/${groupName}`
 //         );
 //         res.data.users.forEach((user) => {
 //             const div = document.createElement("div");
